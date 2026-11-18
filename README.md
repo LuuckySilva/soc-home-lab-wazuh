@@ -1,5 +1,7 @@
 # SOC Home Lab com Wazuh
 
+![gitleaks](https://github.com/LuuckySilva/soc-home-lab-wazuh/actions/workflows/gitleaks.yml/badge.svg)
+
 Laboratório de Blue Team / SOC N1: SIEM Wazuh em Docker, endpoints Linux e Windows (Sysmon + Active Directory), API Node/Express monitorada, ataques simulados (Atomic Red Team) mapeados no MITRE ATT&CK, relatórios de incidente e automação de triagem (mini-SOAR).
 
 ## Estrutura
