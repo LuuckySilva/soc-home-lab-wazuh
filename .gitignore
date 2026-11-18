@@ -1,0 +1,22 @@
+# Segredos
+.env
+*.env.local
+*.pem
+*.key
+*.crt
+**/certs/
+
+# Imagens de VM e ISOs (pesadas, nunca no Git)
+*.iso
+*.vdi
+*.vmdk
+*.ova
+
+# Dependências e cache
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+
+# Logs brutos do lab (evidência vai sanitizada em /reports)
+lab/**/*.log
