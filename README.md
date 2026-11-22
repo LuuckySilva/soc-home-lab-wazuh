@@ -15,4 +15,4 @@ Laboratório de Blue Team / SOC N1: SIEM Wazuh em Docker, endpoints Linux e Wind
 
 ## Status
 - [x] Fase 0: ambiente (WSL2 + Docker) e estrutura do repositório
-- [ ] Fase 1: Wazuh + agente Linux
+- [x] Fase 1: Wazuh + agente Linux
