@@ -1,0 +1,13 @@
+services:
+  linux-endpoint:
+    build: .
+    container_name: linux-endpoint
+    hostname: linux-endpoint
+    restart: unless-stopped
+    networks:
+      - wazuh
+
+networks:
+  wazuh:
+    external: true          # usa a rede que o Wazuh já criou
+    name: single-node_default
