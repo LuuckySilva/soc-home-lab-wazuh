@@ -1,0 +1,21 @@
+services:
+  lab-api:
+    build: .
+    container_name: lab-api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3000:3000"   # só acessível do seu PC, nunca da rede
+    volumes:
+      - lab-api-logs:/var/log/lab-api
+    networks:
+      - wazuh
+
+volumes:
+  lab-api-logs:
+    name: lab-api-logs          # nome fixo: o endpoint vai ler este volume na 2.2
+
+networks:
+  wazuh:
+    external: true
+    name: single-node_default
