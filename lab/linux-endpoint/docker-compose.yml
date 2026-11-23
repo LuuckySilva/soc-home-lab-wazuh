@@ -4,10 +4,20 @@ services:
     container_name: linux-endpoint
     hostname: linux-endpoint
     restart: unless-stopped
+    init: true
+    volumes:
+      - lab-api-logs:/var/log/lab-api:ro      # log da API, somente leitura
+      - endpoint-ossec-etc:/var/ossec/etc     # config e chave do agente persistem
     networks:
       - wazuh
 
+volumes:
+  lab-api-logs:
+    external: true
+    name: lab-api-logs
+  endpoint-ossec-etc:
+
 networks:
   wazuh:
-    external: true          # usa a rede que o Wazuh já criou
+    external: true
     name: single-node_default
