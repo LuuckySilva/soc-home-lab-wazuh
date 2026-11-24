@@ -48,3 +48,31 @@
   </rule>
 
 </group>
+
+<group name="lab-api,access_control,">
+
+  <!-- Pedido inexistente (404): base para detectar enumeração -->
+  <rule id="100104" level="3">
+    <if_sid>100100</if_sid>
+    <field name="event">^order_not_found$</field>
+    <description>Lab API: $(dstuser) pediu um pedido inexistente ($(order_id))</description>
+  </rule>
+
+  <!-- IDOR: usuário acessou pedido de OUTRO usuário (OWASP A01 / CWE-639) -->
+  <rule id="100120" level="10">
+    <if_sid>100100</if_sid>
+    <field name="event">^order_access$</field>
+    <field name="cross_user">^true$</field>
+    <description>Lab API: $(dstuser) acessou o pedido $(order_id) de outro usuário ($(resource_owner)) — possível IDOR</description>
+    <group>idor,owasp_a01,</group>
+  </rule>
+
+  <!-- Enumeração: 3+ pedidos inexistentes do MESMO usuário em 60 s -->
+  <rule id="100121" level="8" frequency="3" timeframe="60">
+    <if_matched_sid>100104</if_matched_sid>
+    <same_user />
+    <description>Lab API: possível enumeração de IDs por $(dstuser) — múltiplos pedidos inexistentes</description>
+    <group>idor,enumeration,owasp_a01,</group>
+  </rule>
+
+</group>

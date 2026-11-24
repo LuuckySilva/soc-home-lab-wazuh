@@ -70,7 +70,7 @@ app.get('/orders/:id', auth, (req, res) => {
     log('order_not_found', { user: req.user.sub, order_id: req.params.id, src_ip: srcIp(req), status: 404 });
     return res.status(404).json({ error: 'pedido não encontrado' });
   }
-  log('order_access', { user: req.user.sub, order_id: order.id, resource_owner: order.owner, src_ip: srcIp(req), status: 200 });
+  log('order_access', { user: req.user.sub, order_id: order.id, resource_owner: order.owner, cross_user: order.owner !== req.user.sub, src_ip: srcIp(req), status: 200 });
   res.json(order);
 });
 
