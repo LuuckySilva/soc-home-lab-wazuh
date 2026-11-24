@@ -31,3 +31,10 @@
 - **Uma correção pode destruir a evidência boa:** ler o log logo depois de cada ação.
 - **A linha do tempo com horário, cruzando os logs do agente e do manager, revelou a causa.**
 - Status como `Active` e `Pending` são uma foto de um instante; o log mostra o histórico.
+
+## TS-002 — Regra de frequência que nunca disparava (same_field com campo estático)
+
+**Sintoma:** a regra 100121 (enumeração) não disparava; os eventos caíam só na regra base 100104 (`firedtimes` 1, 2, 3).
+**Causa raiz:** `<same_field>` só funciona com campos **dinâmicos**. O campo `user` do JSON é mapeado pelo Wazuh para o campo **estático** `dstuser`, então `<same_field>dstuser</same_field>` nunca casava.
+**Correção:** trocado por `<same_user />`, a opção própria para campos estáticos. Na regra de força bruta, `same_field src_ip` funciona porque `src_ip` (com sublinhado) é um campo dinâmico, diferente do campo estático `srcip`.
+**Lição:** antes de escrever uma regra de correlação, verificar na Phase 2 do `wazuh-logtest` se cada campo é estático ou dinâmico.
