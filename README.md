@@ -16,3 +16,14 @@ Laboratório de Blue Team / SOC N1: SIEM Wazuh em Docker, endpoints Linux e Wind
 ## Status
 - [x] Fase 0: ambiente (WSL2 + Docker) e estrutura do repositório
 - [x] Fase 1: Wazuh + agente Linux
+
+## Detecções implementadas
+| Regra | Descrição | MITRE | Nível | Relatório |
+|---|---|---|---|---|
+| 100101 | Falha de login isolada na lab-api | — | 5 | — |
+| 100102 | Login bem-sucedido na lab-api | — | 3 | — |
+| 100103 | Token JWT inválido | — | 5 | — |
+| 100110 | Força bruta: 5+ falhas do mesmo IP em 60 s | T1110.001 | 10 | [001](reports/001-forca-bruta-api.md) |
+
+## Documentação
+- [Rotina de turno N1](docs/rotina-n1.md) · [Modelo de relatório](reports/TEMPLATE.md) · [Troubleshooting](docs/troubleshooting.md) · [Casos de uso](docs/use-cases/)
