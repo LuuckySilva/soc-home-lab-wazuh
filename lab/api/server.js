@@ -1,4 +1,4 @@
-// SOC Home Lab — API de estudo. ⚠️ Contém falha PROPOSITAL (A01 Broken Access Control).
+// SOC Home Lab — API de estudo. Falha A01 (IDOR) introduzida de propósito na Fase 2.1 e CORRIGIDA na Fase 2.8.
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -50,7 +50,7 @@ app.post('/login', (req, res) => {
   res.json({ token });
 });
 
-// Middleware: só deixa passar quem tem JWT válido
+// Middleware: só deixa passar quem tem JWT válido (AUTENTICAÇÃO)
 function auth(req, res, next) {
   const token = (req.headers.authorization || '').replace('Bearer ', '');
   try {
@@ -62,14 +62,22 @@ function auth(req, res, next) {
   }
 }
 
-// ⚠️ VULNERÁVEL DE PROPÓSITO: confere SE o usuário está logado,
-// mas NÃO confere se o pedido é DELE (A01 — Broken Access Control / IDOR)
 app.get('/orders/:id', auth, (req, res) => {
   const order = orders.find((o) => o.id === Number(req.params.id));
   if (!order) {
     log('order_not_found', { user: req.user.sub, order_id: req.params.id, src_ip: srcIp(req), status: 404 });
     return res.status(404).json({ error: 'pedido não encontrado' });
   }
+
+  // ✅ CORREÇÃO A01 (AUTORIZAÇÃO): o pedido precisa pertencer ao usuário logado.
+  // Responde 404 (e não 403) para não revelar ao atacante que o pedido existe.
+  // O log interno registra a verdade para o SOC.
+  if (order.owner !== req.user.sub) {
+    log('access_denied', { user: req.user.sub, order_id: order.id, resource_owner: order.owner, src_ip: srcIp(req), status: 404 });
+    return res.status(404).json({ error: 'pedido não encontrado' });
+  }
+
+  // cross_user continua sendo registrado: se um bug futuro reabrir a falha, a regra 100120 avisa (detecção de regressão)
   log('order_access', { user: req.user.sub, order_id: order.id, resource_owner: order.owner, cross_user: order.owner !== req.user.sub, src_ip: srcIp(req), status: 200 });
   res.json(order);
 });

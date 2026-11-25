@@ -24,6 +24,10 @@ Laboratório de Blue Team / SOC N1: SIEM Wazuh em Docker, endpoints Linux e Wind
 | 100102 | Login bem-sucedido na lab-api | — | 3 | — |
 | 100103 | Token JWT inválido | — | 5 | — |
 | 100110 | Força bruta: 5+ falhas do mesmo IP em 60 s | T1110.001 | 10 | [001](reports/001-forca-bruta-api.md) |
+| 100104 | Pedido inexistente (404) | — | 3 | — |
+| 100120 | IDOR concedido / regressão da correção | OWASP A01 · CWE-639 | 12 | [002](reports/002-idor-api.md) |
+| 100121 | Enumeração de IDs (inexistentes ou negados) | OWASP A01 | 8 | [002](reports/002-idor-api.md) |
+| 100122 | Tentativa de IDOR bloqueada | OWASP A01 | 8 | [002](reports/002-idor-api.md) |
 
 ## Documentação
 - [Rotina de turno N1](docs/rotina-n1.md) · [Modelo de relatório](reports/TEMPLATE.md) · [Troubleshooting](docs/troubleshooting.md) · [Casos de uso](docs/use-cases/)
